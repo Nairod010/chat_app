@@ -1,0 +1,56 @@
+# === Go ===
+/bin/
+/build/
+/dist/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+*.log
+vendor/
+*.mod
+*.sum
+
+# === Node / TypeScript ===
+node_modules/
+*.tsbuildinfo
+dist/
+build/
+.env
+.env.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# === Docker ===
+**/Dockerfile.*
+docker-compose.override.yml
+docker-data/
+docker-logs/
+postgres-data/
+
+# === Neovim ===
+*.swp
+*.swo
+*.swn
+*.un~
+*.bak
+*~
+.netrwhist
+.undodir/
+
+# === OS / Editor Files ===
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.code-workspace
+
+# === Logs ===
+*.log
+logs/
+
