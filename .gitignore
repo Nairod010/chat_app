@@ -13,6 +13,8 @@
 vendor/
 *.mod
 *.sum
+tmp/*
+!tmp/
 
 # === Node / TypeScript ===
 node_modules/
