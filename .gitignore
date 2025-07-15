@@ -15,7 +15,6 @@ vendor/
 *.sum
 tmp/*
 !tmp/
-
 # === Node / TypeScript ===
 node_modules/
 *.tsbuildinfo

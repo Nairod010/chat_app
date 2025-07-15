@@ -1,5 +1,12 @@
 package server
 
-func Stuff() string {
-	return "stuff"
+import "github.com/gofiber/fiber/v2"
+
+func Server() {
+	app := fiber.New()
+	app.Get("/", func(c *fiber.Ctx) error {
+		return c.SendString("Hello, World!")
+	})
+
+	app.Listen(":3000")
 }

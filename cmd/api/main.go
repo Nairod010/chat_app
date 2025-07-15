@@ -1,15 +1,9 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
+	"github.com/nairod010/chat_app/internal/server"
 )
 
 func main() {
-	app := fiber.New()
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
-
-	app.Listen(":3000")
+	server.Server()
 }
