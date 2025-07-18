@@ -1,27 +1,27 @@
 package database
 
 import (
-	"database/sql"
-
-	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
+
+type Test struct {
+	gorm.Model
+	Check string
+}
 
 type Service interface {
 	GetTest() (string, error)
 }
 
 type PostgresService struct {
-	db *sql.DB
+	db *gorm.DB
 }
 
 func NewPostgresService() (*PostgresService, error) {
-	connStr := "postgres://postgres:1@localhost:5432/psqldev?sslmode=disable"
-	db, err := sql.Open("postgres", connStr)
+	dsn := "host=localhost user=postgres password=1 dbname=psqldev port=5432 sslmode=disable"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		return nil, err
-	}
-
-	if err := db.Ping(); err != nil {
 		return nil, err
 	}
 
@@ -33,19 +33,18 @@ func NewPostgresService() (*PostgresService, error) {
 }
 
 func (s *PostgresService) Init() error {
+	s.db.AutoMigrate(&Test{})
+	insertTest := &Test{Check: "test"}
+	s.db.Create(insertTest)
 	return nil
 }
 
 func (s *PostgresService) GetTest() (string, error) {
 	var result string
-	rows, err := s.db.Query("select * from test")
-	if err != nil {
-		return "n-avem", err
-	}
+	readTest := &Test{}
 
-	for rows.Next() {
-		rows.Scan(&result)
-	}
+	s.db.First(readTest)
+	result = readTest.Check
 
 	return result, nil
 }
