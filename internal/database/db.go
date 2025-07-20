@@ -12,6 +12,7 @@ type Test struct {
 
 type Service interface {
 	GetTest() (string, error)
+	InsertTest(*Test) (error)
 }
 
 type PostgresService struct {
@@ -47,4 +48,8 @@ func (s *PostgresService) GetTest() (string, error) {
 	result = readTest.Check
 
 	return result, nil
+}
+
+func (s *PostgresService) InsertTest(t *Test) error {
+	return nil
 }
