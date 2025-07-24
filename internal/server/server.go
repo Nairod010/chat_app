@@ -20,6 +20,7 @@ func NewAPIServer(listenAddr string, service database.Service) *APIServer {
 func (s *APIServer) Server() {
 	app := fiber.New()
 	app.Get("/test", getTest(s.service))
+	app.Post("/test", postTest(s.service))
 	app.Listen(s.listenAddr)
 }
 
@@ -32,5 +33,24 @@ func getTest(service database.Service) fiber.Handler {
 			})
 		}
 		return c.JSON(test)
+	}
+}
+
+func postTest(service database.Service) fiber.Handler {
+	return func(c *fiber.Ctx) error {
+		var test database.Test
+		if err := c.BodyParser(&test); err != nil {
+			return err
+		}
+
+		if test.Check == "" {
+			return c.Status(400).JSON(fiber.Map{"error": "N-am trimis sefu"})
+		}
+
+		if err := service.InsertTest(&test); err != nil {
+			return c.Status(500).JSON(fiber.Map{"error": "N-am bagat bine"})
+		}
+
+		return c.Status(201).JSON(test)
 	}
 }

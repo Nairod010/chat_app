@@ -7,12 +7,12 @@ import (
 
 type Test struct {
 	gorm.Model
-	Check string
+	Check string `json:"check"`
 }
 
 type Service interface {
 	GetTest() (string, error)
-	InsertTest(*Test) (error)
+	InsertTest(*Test) error
 }
 
 type PostgresService struct {
@@ -51,5 +51,7 @@ func (s *PostgresService) GetTest() (string, error) {
 }
 
 func (s *PostgresService) InsertTest(t *Test) error {
+	s.db.Create(t)
+
 	return nil
 }
