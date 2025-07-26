@@ -1,18 +1,14 @@
 package database
 
 import (
+	"github.com/nairod010/chat_app/internal/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-type Test struct {
-	gorm.Model
-	Check string `json:"check"`
-}
-
 type Service interface {
 	GetTest() (string, error)
-	InsertTest(*Test) error
+	InsertTest(*models.Test) error
 }
 
 type PostgresService struct {
@@ -34,15 +30,15 @@ func NewPostgresService() (*PostgresService, error) {
 }
 
 func (s *PostgresService) Init() error {
-	s.db.AutoMigrate(&Test{})
-	insertTest := &Test{Check: "test"}
-	s.db.Create(insertTest)
+	// s.db.AutoMigrate(&models.Test{})
+	// insertTest := &models.Test{Check: "test"}
+	// s.db.Create(insertTest)
 	return nil
 }
 
 func (s *PostgresService) GetTest() (string, error) {
 	var result string
-	readTest := &Test{}
+	readTest := &models.Test{}
 
 	s.db.First(readTest)
 	result = readTest.Check
@@ -50,7 +46,7 @@ func (s *PostgresService) GetTest() (string, error) {
 	return result, nil
 }
 
-func (s *PostgresService) InsertTest(t *Test) error {
+func (s *PostgresService) InsertTest(t *models.Test) error {
 	s.db.Create(t)
 
 	return nil

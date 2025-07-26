@@ -3,6 +3,7 @@ package server
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/nairod010/chat_app/internal/database"
+	"github.com/nairod010/chat_app/internal/models"
 )
 
 type APIServer struct {
@@ -38,7 +39,7 @@ func getTest(service database.Service) fiber.Handler {
 
 func postTest(service database.Service) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		var test database.Test
+		var test models.Test
 		if err := c.BodyParser(&test); err != nil {
 			return err
 		}
